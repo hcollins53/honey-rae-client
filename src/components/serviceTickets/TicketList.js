@@ -12,7 +12,7 @@ export const TicketList = () => {
     const history = useHistory()
 
     useEffect(() => {
-        fetchIt("http://localhost:8000/tickets")
+        fetchIt("http://localhost:8000/serviceTickets")
             .then((tickets) => {
                 setOriginal(tickets)
             })
@@ -40,7 +40,7 @@ export const TicketList = () => {
     }
 
     const filterTickets = (status) => {
-        fetchIt(`http://localhost:8000/tickets?status=${status}`)
+        fetchIt(`http://localhost:8000/serviceTickets?status=${status}`)
             .then((tickets) => {
                 setOriginal(tickets)
             })

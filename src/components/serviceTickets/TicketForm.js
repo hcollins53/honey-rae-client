@@ -14,7 +14,7 @@ export const TicketForm = () => {
         evt.preventDefault()
 
         fetchIt(
-            "http://localhost:8000/tickets",
+            "http://localhost:8000/serviceTickets",
             { method: "POST", body: JSON.stringify(ticket) }
         )
             .then(() => history.push("/tickets"))
