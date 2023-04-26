@@ -40,8 +40,7 @@ export const Ticket = () => {
     }
 
     const updateTicket = (evt) => {
-        const updatedTicket = {...ticket, employee: parseInt(evt.target.value)}
-
+        const updatedTicket = {...ticket, employee: parseInt(evt.target.value)};
         fetchIt(
             `http://localhost:8000/serviceTickets/${ticketId}`,
             {
@@ -50,7 +49,22 @@ export const Ticket = () => {
             }
         ).then(fetchTicket)
     }
-
+    const TicketCompleted = (evt) => {
+        let date = new Date()
+        let getYear = date.toLocaleString("default", {year: "numeric"})
+        let getMonth = date.toLocaleString("default", {month: "2-digit"})
+        let getDay = date.toLocaleString("default", {day: "2-digit"})
+        let dateFormat = getYear + "-" + getMonth + "-" + getDay
+        const updatedTicket = {...ticket, employee: ticket.employee?.id, date_completed: dateFormat}
+        console.log(updatedTicket)
+        fetchIt(
+            `http://localhost:8000/serviceTickets/${ticketId}`,
+            {
+                method: "PUT",
+                body: JSON.stringify(updatedTicket)
+            }
+        ).then(fetchTicket)
+    }
     const ticketStatus = () => {
         if (ticket.date_completed === null) {
             if (ticket.employee) {
@@ -91,11 +105,22 @@ export const Ticket = () => {
                         {
                             ticket.date_completed === null
                                 ? employeePicker(ticket)
-                                : `Completed by ${ticket.employee?.name} on ${ticket.date_completed}`
+                                : `Completed by ${ticket.employee?.full_name} on ${ticket.date_completed}`
                         }
                     </div>
                     <div className="footerItem">
                         { ticketStatus() }
+
+                    </div>
+                    <div>
+                        {
+                            isStaff() & ticket.date_completed === null
+                            ? <button onChange={updateTicket}
+                            onClick={() => {
+                                TicketCompleted()
+                            }}>Mark Done</button>
+                            : ""
+                        }
                     </div>
                     {
                         isStaff()
