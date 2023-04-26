@@ -1,8 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import "./Tickets.css"
+import { fetchIt } from "../../utils/fetchIt"
 
 export const TicketFooter = ({ ticket }) => {
-
     const ticketStatus = () => {
         if (ticket.date_completed === null) {
             if (ticket.employee) {
